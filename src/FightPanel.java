@@ -24,19 +24,19 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (keys[87]) {
-            player.moveUp();
+            player.moveUp(keys[16]);
         }
 
         if (keys[65]) {
-            player.moveLeft();
+            player.moveLeft(keys[16]);
         }
 
         if (keys[83]) {
-            player.moveDown();
+            player.moveDown(keys[16]);
         }
 
         if (keys[68]) {
-            player.moveRight();
+            player.moveRight(keys[16]);
         }
         g.drawImage(player.getSprite(), player.getX(),player.getY(), null);
     }

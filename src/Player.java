@@ -8,6 +8,9 @@ public class Player {
     private int X;
     private int Y;
     public boolean dead;
+    private final int MOVE_SPEED = 5;
+    private final int FOCUS_MOVE_SPEED = 3;
+
     private BufferedImage sprite;
 
     public Player() {
@@ -49,21 +52,48 @@ public class Player {
         }
     }
 
-    public void moveUp() {
-        Y--;
+    public void moveUp(boolean slow) {
+        if (!slow) {
+            Y -= MOVE_SPEED;
+        }   else {
+            Y -= FOCUS_MOVE_SPEED;
+        }
+        if (Y < 0) {
+            Y = 0;
+        }
     }
 
-    public void moveDown() {
-        Y++;
+    public void moveDown(boolean slow) {
+        if (!slow) {
+            Y += MOVE_SPEED;
+        }   else {
+            Y += FOCUS_MOVE_SPEED;
+        }
+        if (Y >= 567) {
+            Y = 567;
+        }
     }
 
-
-    public void moveRight() {
-        X++;
+    public void moveRight(boolean slow) {
+        if (!slow) {
+            X += MOVE_SPEED;
+        }   else {
+            X += FOCUS_MOVE_SPEED;
+        }
+        if (X >= 752) {
+            X = 752;
+        }
     }
 
-    public void moveLeft() {
-       X--;
+    public void moveLeft(boolean slow) {
+        if (!slow) {
+            X -= MOVE_SPEED;
+        }   else {
+            X -= FOCUS_MOVE_SPEED;
+        }
+        if (X < 0) {
+            X = 0;
+        }
     }
 
 
