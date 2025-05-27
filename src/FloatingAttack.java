@@ -1,15 +1,13 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class HomingAttack extends Attack implements ActionListener {
+public class FloatingAttack extends Attack implements ActionListener {
     private Timer timer;
     private int speed;
 
-    public HomingAttack(Player player) {
+    public FloatingAttack(Player player) {
         super(player);
         speed = 1;
         timer = new Timer(16, this);
@@ -31,9 +29,8 @@ public class HomingAttack extends Attack implements ActionListener {
         speed++;
         for (int i = 0; i < projectiles.size(); i++) {
             projectiles.get(i).setY(projectiles.get(i).getY() - speed);
-            if (projectiles.get(i).getHitbox().intersects(getPlayer().getHitbox())) {
+            if (projectiles.get(i).getHitbox().intersects(getPlayer().getHitbox()))
                 getPlayer().setHearts(-1);
-            }
         }
         if (projectiles.get(0).getY() < -100) {
             initialize();

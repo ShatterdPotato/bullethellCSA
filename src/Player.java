@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player {
     private int hearts;
@@ -11,8 +12,9 @@ public class Player {
     private boolean invincible;
     private final int MOVE_SPEED = 8;
     private final int FOCUS_MOVE_SPEED = 5;
-
     private BufferedImage sprite;
+    private Animation animation;
+    private boolean facingRight;
 
     public Player() {
         hearts = 3;
@@ -23,6 +25,25 @@ public class Player {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        ArrayList<BufferedImage> images = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            String filename = "src\\player00" + i + ".png";
+            try {
+                images.add(ImageIO.read(new File(filename)));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            animation = new Animation(images, 100);
+        }
+        facingRight = true;
+    }
+
+    public void faceRight() {
+        facingRight = true;
+    }
+
+    public void faceLeft() {
+        facingRight = false;
     }
 
     public int getHearts() {
@@ -34,11 +55,25 @@ public class Player {
     }
 
     public BufferedImage getSprite() {
-        return sprite;
+        return animation.getActiveFrame();
     }
 
     public int getX() {
-        return X;
+        if (facingRight) {
+            return X;
+        }
+        return X + getSprite().getWidth();
+    }
+    public int getHeight() {
+        return getSprite().getHeight();
+    }
+
+    public int getWidth() {
+        if (facingRight) {
+            return getSprite().getWidth();
+        } else {
+            return getSprite().getWidth() * -1;
+        }
     }
 
     public int getY() {

@@ -1,15 +1,20 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class FightPanel extends JPanel implements KeyListener, ActionListener {
     private Player player;
     private boolean[] keys;
     private Timer timer;
     private Attack currAttack;
+    private BufferedImage heart;
 
     public FightPanel() {
         addKeyListener(this);
@@ -19,7 +24,12 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
         keys = new boolean[128];
         timer = new Timer(16, this);
         timer.start();
-        currAttack = new HomingAttack(player);
+        currAttack = new FloatingAttack(player);
+        try {
+            heart = ImageIO.read(new File("src\\heart.png"));
+        }   catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -28,33 +38,36 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
         if (keys[87])
             player.moveUp(keys[16]);
 
-        if (keys[65])
-            player.moveLeft(keys[16]);
+        if (keys[65]) {
+            player.faceLeft();
+            player.moveLeft(keys[65]);
+        }
 
         if (keys[83])
             player.moveDown(keys[16]);
 
-        if (keys[68])
+        if (keys[68]) {
+            player.faceRight();
             player.moveRight(keys[16]);
+        }
 
         for (Projectile proj : currAttack.getProjectiles()) {
             if (proj.isActive())
                 g.drawImage(Projectile.getSprite(), proj.getX(), proj.getY(), null);
         }
-        for (int i = 1; i <= 3; i++) {
-            g.drawImage(Projectile.getSprite(), 800 - (i * 20), 0, null);
-        }
+
         if (!player.isDead()) {
-            g.drawImage(player.getSprite(), player.getX(),player.getY(), null);
-            System.out.println(player.getHearts());
+            g.drawImage(player.getSprite(), player.getX(),player.getY(), player.getWidth(), player.getHeight(), null);
+        }
+
+        for (int i = 1; i <= player.getHearts(); i++) {
+            g.drawImage(heart, 800 - (i * 50), 0, null);
         }
 
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
