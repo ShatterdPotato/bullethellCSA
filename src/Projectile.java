@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Projectile {
-    private BufferedImage sprite;
+    private static BufferedImage sprite;
     private int X;
     private int Y;
     private boolean active;
@@ -16,6 +16,7 @@ public class Projectile {
     public Projectile(int x, int y) {
         X = x;
         Y = y;
+        active = true;
         try {
             sprite = ImageIO.read(new File("src\\projectile.png"));
         } catch (IOException e) {
@@ -37,6 +38,10 @@ public class Projectile {
 
     public void setY(int y) {
         Y = y;
+    }
+
+    public Rectangle getHitbox() {
+        return new Rectangle(X, Y, sprite.getWidth(), sprite.getHeight());
     }
 
     public static BufferedImage getSprite() {

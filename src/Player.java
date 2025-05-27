@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,15 +8,14 @@ public class Player {
     private int hearts;
     private int X;
     private int Y;
-    public boolean dead;
-    private final int MOVE_SPEED = 5;
-    private final int FOCUS_MOVE_SPEED = 3;
+    private boolean invincible;
+    private final int MOVE_SPEED = 8;
+    private final int FOCUS_MOVE_SPEED = 5;
 
     private BufferedImage sprite;
 
     public Player() {
         hearts = 3;
-        dead = false;
         X = 400;
         Y = 300;
         try {
@@ -30,7 +30,7 @@ public class Player {
     }
 
     public boolean isDead() {
-        return dead;
+        return hearts <= 0;
     }
 
     public BufferedImage getSprite() {
@@ -45,11 +45,25 @@ public class Player {
         return Y;
     }
 
+    public void setHearts(int amt) {
+        if (amt < 0)
+            invincible = true;
+        hearts += amt;
+        if (hearts < 0)
+            hearts = 0;
+        else if (hearts > 3)
+            hearts = 3;
+    }
+
+    public void toggleInvincibility() {
+        invincible = !invincible;
+    }
+    public Rectangle getHitbox() {
+        return new Rectangle(X, Y, sprite.getWidth(), sprite.getHeight());
+    }
+
     public void hit() {
         hearts--;
-        if (hearts == 0) {
-            dead = true;
-        }
     }
 
     public void moveUp(boolean slow) {
