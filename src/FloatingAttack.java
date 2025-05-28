@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class FloatingAttack extends Attack implements ActionListener {
     private Timer timer;
     private int speed;
+    private int resets;
 
     public FloatingAttack(Player player) {
         super(player);
@@ -13,13 +14,19 @@ public class FloatingAttack extends Attack implements ActionListener {
         timer = new Timer(16, this);
         timer.start();
         initialize();
+        resets = 0;
     }
 
 
 
     private void initialize() {
+        resets++;
+        if (resets > 3) {
+            timer.stop();
+            return;
+        }
         projectiles = new ArrayList<>();
-        for (int i = 0; i < (int) (Math.random() * 10) + 1; i++) {
+        for (int i = 0; i < (int) (Math.random() * 6) + 1; i++) {
             projectiles.add(new Projectile((int) (Math.random() * 700) + 100, 600));
         }
     }
@@ -29,10 +36,10 @@ public class FloatingAttack extends Attack implements ActionListener {
         speed++;
         for (int i = 0; i < projectiles.size(); i++) {
             projectiles.get(i).setY(projectiles.get(i).getY() - speed);
-            if (projectiles.get(i).getHitbox().intersects(getPlayer().getHitbox()))
+            if (!getPlayer().isInvincible() && projectiles.get(i).getHitbox().intersects(getPlayer().getHitbox()))
                 getPlayer().setHearts(-1);
         }
-        if (projectiles.get(0).getY() < -100) {
+        if (projectiles.getFirst().getY() < -100) {
             initialize();
             speed = 0;
         }

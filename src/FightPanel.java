@@ -40,7 +40,7 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
 
         if (keys[65]) {
             player.faceLeft();
-            player.moveLeft(keys[65]);
+            player.moveLeft(keys[16]);
         }
 
         if (keys[83])
@@ -51,13 +51,17 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
             player.moveRight(keys[16]);
         }
 
-        for (Projectile proj : currAttack.getProjectiles()) {
-            if (proj.isActive())
-                g.drawImage(Projectile.getSprite(), proj.getX(), proj.getY(), null);
+        if (currAttack != null) {
+            for (Projectile proj : currAttack.getProjectiles()) {
+                if (proj.isActive())
+                    g.drawImage(Projectile.getSprite(), proj.getX(), proj.getY(), null);
+            }
         }
 
         if (!player.isDead()) {
             g.drawImage(player.getSprite(), player.getX(),player.getY(), player.getWidth(), player.getHeight(), null);
+            if (keys[16])
+                g.fillRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height);
         }
 
         for (int i = 1; i <= player.getHearts(); i++) {

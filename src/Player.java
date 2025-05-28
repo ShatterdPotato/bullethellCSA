@@ -1,30 +1,29 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements ActionListener {
     private int hearts;
     private int X;
     private int Y;
     private boolean invincible;
     private final int MOVE_SPEED = 8;
-    private final int FOCUS_MOVE_SPEED = 5;
-    private BufferedImage sprite;
+    private final int FOCUS_MOVE_SPEED = 4;
     private Animation animation;
     private boolean facingRight;
+    private Timer iframe;
+    private Rectangle hitbox;
 
     public Player() {
         hearts = 3;
         X = 400;
         Y = 300;
-        try {
-            sprite = ImageIO.read(new File("src\\player.png"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             String filename = "src\\player00" + i + ".png";
@@ -36,6 +35,8 @@ public class Player {
             animation = new Animation(images, 100);
         }
         facingRight = true;
+        iframe = new Timer(1000, this);
+        hitbox = new Rectangle(X + 40, Y + 20, 20, 20);
     }
 
     public void faceRight() {
@@ -83,6 +84,7 @@ public class Player {
     public void setHearts(int amt) {
         if (amt < 0)
             invincible = true;
+        iframe.start();
         hearts += amt;
         if (hearts < 0)
             hearts = 0;
@@ -93,12 +95,13 @@ public class Player {
     public void toggleInvincibility() {
         invincible = !invincible;
     }
-    public Rectangle getHitbox() {
-        return new Rectangle(X, Y, sprite.getWidth(), sprite.getHeight());
+
+    public boolean isInvincible() {
+        return invincible;
     }
 
-    public void hit() {
-        hearts--;
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 
     public void moveUp(boolean slow) {
@@ -110,6 +113,7 @@ public class Player {
         if (Y < 0) {
             Y = 0;
         }
+        hitbox.y = Y + 20;
     }
 
     public void moveDown(boolean slow) {
@@ -121,6 +125,7 @@ public class Player {
         if (Y >= 567) {
             Y = 567;
         }
+        hitbox.y = Y + 20;
     }
 
     public void moveRight(boolean slow) {
@@ -132,6 +137,7 @@ public class Player {
         if (X >= 752) {
             X = 752;
         }
+        hitbox.x = X + 40;
     }
 
     public void moveLeft(boolean slow) {
@@ -143,7 +149,13 @@ public class Player {
         if (X < 0) {
             X = 0;
         }
+        hitbox.x = X + 25;
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        iframe.stop();
+        invincible = false;
+    }
 }
