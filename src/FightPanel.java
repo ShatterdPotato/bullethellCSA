@@ -24,7 +24,7 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
         keys = new boolean[128];
         timer = new Timer(16, this);
         timer.start();
-        currAttack = new FloatingAttack(player);
+        currAttack = new FloatingAttack(player, timer);
         try {
             heart = ImageIO.read(new File("src\\heart.png"));
         }   catch (IOException e) {
@@ -86,6 +86,12 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
+            if (currAttack != null) {
+                currAttack.update();
+                if (!currAttack.isActive()) {
+                    currAttack = null;
+                }
+            }
             repaint();
         }
     }

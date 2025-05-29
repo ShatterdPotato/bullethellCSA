@@ -12,11 +12,13 @@ public class Projectile {
     private int Y;
     private boolean active;
     private int ticks;
+    private int lifespan;
 
-    public Projectile(int x, int y) {
+    public Projectile(int x, int y, int lifespan) {
         X = x;
         Y = y;
         active = true;
+        this.lifespan = lifespan;
         try {
             sprite = ImageIO.read(new File("src\\projectile.png"));
         } catch (IOException e) {
@@ -36,6 +38,10 @@ public class Projectile {
         return Y;
     }
 
+    public int getTicks() {
+        return ticks;
+    }
+
     public void setY(int y) {
         Y = y;
     }
@@ -53,12 +59,14 @@ public class Projectile {
     }
 
 
-
-    public void update() {
+    public void update(Player player) {
         ticks++;
-        if (ticks == 240) {
+        if (ticks == lifespan) {
             active = false;
+            return;
         }
+        if (!player.isInvincible() && getHitbox().intersects(player.getHitbox()))
+            player.setHearts(-1);
     }
 
 }

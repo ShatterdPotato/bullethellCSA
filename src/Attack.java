@@ -3,11 +3,9 @@ import java.util.ArrayList;
 public class Attack {
     private Player player;
     protected ArrayList<Projectile> projectiles;
-    private boolean active;
 
     public Attack(Player player) {
         this.player = player;
-        active = true;
     }
 
     public ArrayList<Projectile> getProjectiles() {
@@ -18,5 +16,14 @@ public class Attack {
         return player;
     }
 
-    public boolean isActive() {return active;}
+    public boolean isActive() {
+        for (Projectile proj : projectiles) {
+            if (proj.isActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void update() {}
 }
