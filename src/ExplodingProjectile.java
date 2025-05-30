@@ -1,11 +1,10 @@
 public class ExplodingProjectile extends Projectile {
 
     private int speed;
-    private boolean exploded;
 
     public ExplodingProjectile(int x, int y, int lifespan) {
         super(x, y, lifespan);
-        speed = 20;
+        speed = (int) (Math.random() * 20) + 10;
     }
 
     @Override
@@ -14,13 +13,10 @@ public class ExplodingProjectile extends Projectile {
         if (getTicks() % 2 == 0) {
             speed--;
             setY(getY() - speed);
-            if (speed == 0) {
-                exploded = true;
+            if (speed == -1) {
+                active = false;
             }
         }
     }
 
-    public boolean isExploded() {
-        return exploded;
-    }
 }

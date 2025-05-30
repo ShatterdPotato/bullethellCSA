@@ -10,7 +10,7 @@ public class Projectile {
     private static BufferedImage sprite;
     private int X;
     private int Y;
-    private boolean active;
+    protected boolean active;
     private int ticks;
     private int lifespan;
 
@@ -18,6 +18,7 @@ public class Projectile {
         X = x;
         Y = y;
         active = true;
+        ticks = 0;
         this.lifespan = lifespan;
         try {
             sprite = ImageIO.read(new File("src\\projectile.png"));
@@ -61,7 +62,7 @@ public class Projectile {
 
     public void update(Player player) {
         ticks++;
-        if (ticks == lifespan) {
+        if (ticks >= lifespan) {
             active = false;
             return;
         }

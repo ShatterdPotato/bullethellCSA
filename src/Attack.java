@@ -25,5 +25,9 @@ public class Attack {
         return false;
     }
 
-    public void update() {}
+    public void update() {
+        for (Projectile proj : projectiles) {
+            proj.update(getPlayer());
+        }
+    }
 }

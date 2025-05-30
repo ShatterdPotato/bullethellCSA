@@ -4,10 +4,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class FloatingAttack extends Attack {
-    private Timer timer;
     private int resets;
 
-    public FloatingAttack(Player player, Timer timer) {
+    public FloatingAttack(Player player) {
         super(player);
         initialize();
     }
@@ -19,15 +18,13 @@ public class FloatingAttack extends Attack {
         }
         projectiles = new ArrayList<>();
         for (int i = 0; i < (int) (Math.random() * 20) + 1; i++) {
-            projectiles.add(new FloatingProjectile((int) (Math.random() * 700) + 100, 600, 600));
+            projectiles.add(new FloatingProjectile((int) (Math.random() * 700) + 100, 600, 100));
         }
     }
 
     @Override
     public void update() {
-        for (Projectile proj : projectiles) {
-            proj.update(getPlayer());
-        }
+        super.update();
         if (projectiles.getFirst().getY() < -100) {
             initialize();
         }
