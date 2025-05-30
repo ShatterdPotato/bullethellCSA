@@ -25,7 +25,7 @@ public class FloatingAttack extends Attack {
     @Override
     public void update() {
         super.update();
-        if (projectiles.getFirst().getY() < -100) {
+        if (!projectiles.getFirst().isActive()) {
             initialize();
         }
     }

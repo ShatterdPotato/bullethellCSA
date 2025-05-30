@@ -1,7 +1,7 @@
 public class FloatingProjectile extends Projectile {
     private int speed;
 
-    public FloatingProjectile(int x, int y, int lifespan) {
+    public FloatingProjectile(double x, double y, int lifespan) {
         super(x, y, lifespan);
         speed = 1;
     }
@@ -11,5 +11,7 @@ public class FloatingProjectile extends Projectile {
         super.update(player);
         speed++;
         setY(getY() - speed);
+        if (getY() <= -50)
+            active = false;
     }
 }

@@ -8,13 +8,13 @@ import java.io.IOException;
 
 public class Projectile {
     private static BufferedImage sprite;
-    private int X;
-    private int Y;
+    private double X;
+    private double Y;
     protected boolean active;
     private int ticks;
     private int lifespan;
 
-    public Projectile(int x, int y, int lifespan) {
+    public Projectile(double x, double y, int lifespan) {
         X = x;
         Y = y;
         active = true;
@@ -27,15 +27,15 @@ public class Projectile {
         }
     }
 
-    public int getX() {
+    public double getX() {
         return X;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         X = x;
     }
 
-    public int getY() {
+    public double getY() {
         return Y;
     }
 
@@ -43,12 +43,12 @@ public class Projectile {
         return ticks;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         Y = y;
     }
 
     public Rectangle getHitbox() {
-        return new Rectangle(X, Y, sprite.getWidth(), sprite.getHeight());
+        return new Rectangle((int) X, (int) Y, sprite.getWidth(), sprite.getHeight());
     }
 
     public static BufferedImage getSprite() {
@@ -66,8 +66,10 @@ public class Projectile {
             active = false;
             return;
         }
-        if (!player.isInvincible() && getHitbox().intersects(player.getHitbox()))
+        if (!player.isInvincible() && active && getHitbox().intersects(player.getHitbox())) {
             player.setHearts(-1);
+            active = false;
+        }
     }
 
 }
