@@ -34,6 +34,4 @@ public class HomingProjectile extends Projectile{
         setY(getY() + (speedY * Math.sin(angle)));
 
     }
-
-    private double[] lerp(int )
 }

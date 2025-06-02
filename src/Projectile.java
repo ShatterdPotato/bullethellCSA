@@ -47,7 +47,7 @@ public class Projectile {
         Y = y;
     }
 
-    public Rectangle getHitbox() {
+    public Shape getHitbox() {
         return new Rectangle((int) X, (int) Y, sprite.getWidth(), sprite.getHeight());
     }
 
@@ -68,7 +68,9 @@ public class Projectile {
         }
         if (!player.isInvincible() && active && getHitbox().intersects(player.getHitbox())) {
             player.setHearts(-1);
-            active = false;
+            System.out.println("HI");
+            if (!(this instanceof Laser))
+                active = false;
         }
     }
 

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
         keys = new boolean[128];
         timer = new Timer(16, this);
         timer.start();
-        currAttack = new ExplodingHomingAttack(player);
+        currAttack = new SpinningLaserAttack(player);
         try {
             heart = ImageIO.read(new File("src\\heart.png"));
         }   catch (IOException e) {
@@ -35,6 +36,8 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        ((Graphics2D) g).setStroke(new BasicStroke(20));
         if (keys[87])
             player.moveUp(keys[16]);
 
@@ -53,8 +56,15 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
 
         if (currAttack != null) {
             for (Projectile proj : currAttack.getProjectiles()) {
-                if (proj.isActive())
-                    g.drawImage(Projectile.getSprite(), (int) proj.getX(), (int) proj.getY(), null);
+                if (proj.isActive()) {
+                    if (proj instanceof Laser) {
+                        Line2D laser = ((Line2D) proj.getHitbox());
+                        g.setColor(Color.RED);
+                        g.drawLine((int) laser.getX1(), (int) laser.getY1(), (int) laser.getX2(), (int) laser.getY2());
+                    }   else
+                        g.drawImage(Projectile.getSprite(), (int) proj.getX(), (int) proj.getY(), null);
+
+                }
             }
         }
 
