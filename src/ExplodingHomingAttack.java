@@ -17,7 +17,7 @@ public class ExplodingHomingAttack extends Attack{
                 Projectile temp = projectiles.removeFirst();
                 for (int i = 0; i <= 7; i++) {
                     int rad = 30;
-                    projectiles.add(new HomingProjectile((temp.getX() +  (rad * Math.cos(i * Math.PI / 4))), temp.getY() +  (rad * Math.sin(i * Math.PI / 4)), 3000));
+                    projectiles.add(new HomingProjectile((temp.getX() +  (rad * Math.cos(i * Math.PI / 4))), temp.getY() +  (rad * Math.sin(i * Math.PI / 4)), 100, i));
                 }
             }
         }   else {

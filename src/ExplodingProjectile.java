@@ -1,5 +1,4 @@
 public class ExplodingProjectile extends Projectile {
-
     private int speed;
 
     public ExplodingProjectile(int x, int y, int lifespan) {

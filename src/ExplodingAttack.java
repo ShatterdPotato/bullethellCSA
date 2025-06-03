@@ -17,22 +17,12 @@ public class ExplodingAttack extends Attack {
                 Projectile temp = projectiles.removeFirst();
                 for (int i = 0; i <= 7; i++) {
                     int rad = 30;
-                    projectiles.add(new Projectile((temp.getX() +  (rad * Math.cos(i * Math.PI / 4))), temp.getY() +  (rad * Math.sin(i * Math.PI / 4)), 50));
+                    projectiles.add(new ExplodingFragmentProjectile((temp.getX() +  (rad * Math.cos(i * Math.PI / 4))), temp.getY() +  (rad * Math.sin(i * Math.PI / 4)), 50, i));
                 }
             }
         } else {
-            speed++;
-            for (int i = 0; i <= 7; i++) {
-                Projectile temp = projectiles.get(i);
-                if (i == 0 || i == 1 || i == 7)
-                    temp.setX(temp.getX() + speed);
-                if (i == 3 || i == 4 || i == 5)
-                    temp.setX(temp.getX() - speed);
-                if (i == 1 || i == 2 || i == 3)
-                    temp.setY(temp.getY() + speed);
-                if (i == 5 || i == 6 || i == 7)
-                    temp.setY(temp.getY() - speed);
-
+            for (Projectile projectile : projectiles) {
+                projectile.update(getPlayer());
             }
         }
 

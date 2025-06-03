@@ -37,7 +37,6 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
         ((Graphics2D) g).setStroke(new BasicStroke(20));
         if (keys[87])
             player.moveUp(keys[16]);
@@ -106,11 +105,14 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
                         case 1:
                             currAttack = new RingAttack(player);
                             break;
-                        case 2, 3, 4:
+                        case 2, 3:
                             currAttack = new FloatingAttack(player);
                             break;
-                        case 5, 6, 7:
+                        case 4, 5:
                             currAttack = new ExplodingAttack(player);
+                            break;
+                        case 6, 7:
+                            currAttack = new ExplodingHomingAttack(player);
                             break;
                         case 8:
                             currAttack = new FilterAttack(player);
