@@ -6,6 +6,7 @@ public class Attack {
 
     public Attack(Player player) {
         this.player = player;
+        projectiles = new ArrayList<>();
     }
 
     public ArrayList<Projectile> getProjectiles() {

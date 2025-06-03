@@ -23,7 +23,7 @@ public class Player implements ActionListener {
     public Player() {
         hearts = 3;
         X = 400;
-        Y = 300;
+        Y = 200;
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             String filename = "src\\player00" + i + ".png";

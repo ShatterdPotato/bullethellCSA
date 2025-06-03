@@ -6,7 +6,6 @@ public class ExplodingAttack extends Attack {
     public ExplodingAttack(Player player) {
         super(player);
         speed = 1;
-        projectiles = new ArrayList<>();
         projectiles.add(new ExplodingProjectile((int) (Math.random() * 700) + 100, 600, 600));
     }
 

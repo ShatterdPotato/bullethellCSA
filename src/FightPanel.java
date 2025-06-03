@@ -16,6 +16,7 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     private Timer timer;
     private Attack currAttack;
     private BufferedImage heart;
+    private int attackTracker;
 
     public FightPanel() {
         addKeyListener(this);
@@ -61,6 +62,7 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
                         Line2D laser = ((Line2D) proj.getHitbox());
                         g.setColor(Color.RED);
                         g.drawLine((int) laser.getX1(), (int) laser.getY1(), (int) laser.getX2(), (int) laser.getY2());
+                        g.setColor(Color.DARK_GRAY);
                     }   else
                         g.drawImage(Projectile.getSprite(), (int) proj.getX(), (int) proj.getY(), null);
 
@@ -96,11 +98,24 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
-            System.out.println(currAttack.isActive());
             if (currAttack != null) {
                 currAttack.update();
                 if (!currAttack.isActive()) {
-                   currAttack = new ExplodingHomingAttack(player);
+                    attackTracker++;
+                    switch (attackTracker) {
+                        case 1:
+                            currAttack = new RingAttack(player);
+                            break;
+                        case 2, 3, 4:
+                            currAttack = new FloatingAttack(player);
+                            break;
+                        case 5, 6, 7:
+                            currAttack = new ExplodingAttack(player);
+                            break;
+                        case 8:
+                            currAttack = new FilterAttack(player);
+                            break;
+                    }
                 }
             }
             repaint();

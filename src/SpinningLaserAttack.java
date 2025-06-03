@@ -4,8 +4,7 @@ public class SpinningLaserAttack extends Attack{
     int angleCounter;
     public SpinningLaserAttack(Player player) {
         super(player);
-        projectiles = new ArrayList<>();
-        projectiles.add(new Laser(0, 300, 800, 300, 3000));
+        projectiles.add(new Laser(400, 300, 800, 300, 400));
         angleCounter = 0;
     }
 
@@ -14,8 +13,8 @@ public class SpinningLaserAttack extends Attack{
         super.update();
         angleCounter++;
         Laser laser = (Laser) projectiles.getFirst();
-        laser.setY1(laser.getY1() - 1);
-        laser.setY2(laser.getY2() - 1);
+        laser.setX2(400 + 500 * Math.cos(Math.toRadians(angleCounter)));
+        laser.setY2(300 + 500 * Math.sin(Math.toRadians(angleCounter)));
     }
 
 
