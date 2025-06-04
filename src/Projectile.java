@@ -68,7 +68,6 @@ public class Projectile {
         }
         if (!player.isInvincible() && active && getHitbox().intersects(player.getHitbox())) {
             player.setHearts(-1);
-            System.out.println("HI");
             if (!(this instanceof Laser))
                 active = false;
         }

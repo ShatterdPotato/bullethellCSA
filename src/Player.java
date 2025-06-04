@@ -152,6 +152,14 @@ public class Player implements ActionListener {
         hitbox.x = X + 25;
     }
 
+    public void moveLeft(int amt) {
+        X -= amt;
+        if (X < 0) {
+            X = 0;
+        }
+        hitbox.x = X + 25;
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

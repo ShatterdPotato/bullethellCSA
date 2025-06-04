@@ -17,8 +17,10 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     private Attack currAttack;
     private BufferedImage heart;
     private int attackTracker;
+    private JFrame frame;
 
-    public FightPanel() {
+    public FightPanel(JFrame f) {
+        frame = f;
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
@@ -26,7 +28,8 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
         keys = new boolean[128];
         timer = new Timer(16, this);
         timer.start();
-        currAttack = new SpinningLaserAttack(player);
+        attackTracker = 0;
+        currAttack = new FilterAttack(player);
         try {
             heart = ImageIO.read(new File("src\\heart.png"));
         }   catch (IOException e) {
@@ -73,7 +76,14 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
             g.drawImage(player.getSprite(), player.getX(),player.getY(), player.getWidth(), player.getHeight(), null);
             if (keys[16])
                 g.fillRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height);
+        }   else {
+            frame.remove(this);
+            frame.add(new MainPanel(frame));
+            frame.getContentPane().requestFocusInWindow();
+            frame.validate();
+            frame.repaint();
         }
+
 
         for (int i = 1; i <= player.getHearts(); i++) {
             g.drawImage(heart, 800 - (i * 50), 0, null);
