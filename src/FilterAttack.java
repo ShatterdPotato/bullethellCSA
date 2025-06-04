@@ -29,7 +29,7 @@ public class FilterAttack extends Attack {
             for (int i = 1; i <= 5; i++) {
                 int offset = (int) (Math.random() * 201) + 800;
                 projectiles.add(new Projectile(150 + (i * 100), offset, 1000));
-                for (int j = 1; j <= 20; j++) {
+                for (int j = 1; j <= 15; j++) {
                     offset -= 75;
                     projectiles.add(new Projectile(100 + (i * 100), offset, 1000));
                 }

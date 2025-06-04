@@ -3,15 +3,17 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class MainPanel extends JPanel implements MouseListener {
+    private ArrayList<JLabel> labels;
     private JLabel play;
     private JLabel settings;
     private JLabel quit;
-    private JFrame frame;
 
-    public MainPanel(JFrame f) {
-        frame = f;
+    public MainPanel() {
+        setFocusable(true);
+        requestFocusInWindow();
 
         play = new JLabel("Play");
         play.setFocusable(false);
@@ -46,15 +48,10 @@ public class MainPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == play) {
-            frame.remove(this);
-            frame.add(new FightPanel(frame));
-            frame.getContentPane().requestFocusInWindow();
-            frame.validate();
-            frame.repaint();
-        }
+        if (e.getSource() == play)
+            Frame.cycleScreen(new FightPanel());
         else if (e.getSource() == settings)
-            System.out.println("bye");
+            Frame.cycleScreen(new SettingPanel());
         else if (e.getSource() == quit)
             Frame.quit();
         repaint();
