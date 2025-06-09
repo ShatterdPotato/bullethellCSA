@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class FloatingAttack extends Attack {
     public FloatingAttack(Player player) {
         super(player);
-        for (int i = 0; i < (int) (Math.random() * 20) + 1; i++) {
-            projectiles.add(new FloatingProjectile((int) (Math.random() * 700) + 100, 600, 100));
+        for (int i = 0; i < (int) (Math.random() * 20) + 5; i++) {
+            projectiles.add(new FloatingProjectile((int) (Math.random() * 700) + 100, 600, 40));
         }
     }
 

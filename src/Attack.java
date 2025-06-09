@@ -3,9 +3,11 @@ import java.util.ArrayList;
 public class Attack {
     private Player player;
     protected ArrayList<Projectile> projectiles;
+    protected int ticks;
 
     public Attack(Player player) {
         this.player = player;
+        ticks = 0;
         projectiles = new ArrayList<>();
     }
 
@@ -27,6 +29,7 @@ public class Attack {
     }
 
     public void update() {
+        ticks++;
         for (Projectile proj : projectiles) {
             proj.update(getPlayer());
         }

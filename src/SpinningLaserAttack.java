@@ -14,11 +14,11 @@ public class SpinningLaserAttack extends Attack{
     public void update() {
         super.update();
         Laser laser = (Laser) projectiles.getFirst();
-        if (laser.getTicks() == 100)
+        if (ticks == 100)
             rotationSpeed = 2;
-        else if (laser.getTicks() == 150)
+        else if (ticks == 150)
             rotationSpeed = 3;
-        else if (laser.getTicks() == 175)
+        else if (ticks == 175)
             rotationSpeed = 4;
         angleCounter += rotationSpeed;
         laser.setX2(400 + 500 * Math.cos(Math.toRadians(angleCounter)));

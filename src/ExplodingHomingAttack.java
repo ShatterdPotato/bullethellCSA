@@ -1,11 +1,8 @@
 import java.util.ArrayList;
 
 public class ExplodingHomingAttack extends Attack{
-    int speed;
-
     public ExplodingHomingAttack(Player player) {
         super(player);
-        speed = 1;
         projectiles.add(new ExplodingProjectile((int) (Math.random() * 700) + 100, 600, 600));
     }
 

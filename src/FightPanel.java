@@ -22,12 +22,13 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
+        setBackground(Color.BLACK);
         player = new Player();
         keys = new boolean[128];
         timer = new Timer(16, this);
         timer.start();
         attackTracker = 0;
-        currAttack = new FilterAttack(player);
+        currAttack = new HomingSpamAttack(player);
         try {
             heart = ImageIO.read(new File("src\\heart.png"));
         }   catch (IOException e) {
@@ -55,31 +56,33 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
             player.moveRight(keys[16]);
         }
 
-        if (currAttack != null) {
+        synchronized (g) {
+            if (!player.isDead()) {
+                g.drawImage(player.getSprite(), player.getX(),player.getY(), player.getWidth(), player.getHeight(), null);
+                if (keys[16])
+                    g.fillRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height);
+            }   else
+                Frame.cycleScreen(new MainPanel());
+
+            for (int i = 1; i <= player.getHearts(); i++) {
+                g.drawImage(heart, 800 - (i * 50), 0, null);
+            }
+
             for (Projectile proj : currAttack.getProjectiles()) {
                 if (proj.isActive()) {
                     if (proj instanceof Laser) {
                         Line2D laser = ((Line2D) proj.getHitbox());
                         g.setColor(Color.RED);
                         g.drawLine((int) laser.getX1(), (int) laser.getY1(), (int) laser.getX2(), (int) laser.getY2());
+                        //g.setColor(new Color(242, 97, 97));
+                        //((Graphics2D) g).setStroke(new BasicStroke(10));
+                        //g.drawLine((int) laser.getX1(), (int) laser.getY1(), (int) laser.getX2(), (int) laser.getY2());
                         g.setColor(Color.DARK_GRAY);
                     }   else
                         g.drawImage(Projectile.getSprite(), (int) proj.getX(), (int) proj.getY(), null);
 
                 }
             }
-        }
-
-        if (!player.isDead()) {
-            g.drawImage(player.getSprite(), player.getX(),player.getY(), player.getWidth(), player.getHeight(), null);
-            if (keys[16])
-                g.fillRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height);
-        }   else
-            Frame.cycleScreen(new MainPanel());
-
-
-        for (int i = 1; i <= player.getHearts(); i++) {
-            g.drawImage(heart, 800 - (i * 50), 0, null);
         }
 
     }
@@ -100,9 +103,9 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
-            if (currAttack != null) {
-                currAttack.update();
-                if (!currAttack.isActive()) {
+            currAttack.update();
+            if (!currAttack.isActive()) {
+                if (currAttack instanceof Spacing) {
                     attackTracker++;
                     switch (attackTracker) {
                         case 1:
@@ -121,7 +124,7 @@ public class FightPanel extends JPanel implements KeyListener, ActionListener {
                             currAttack = new FilterAttack(player);
                             break;
                     }
-                }
+                }   else currAttack = new Spacing(player, 30);
             }
             repaint();
         }
