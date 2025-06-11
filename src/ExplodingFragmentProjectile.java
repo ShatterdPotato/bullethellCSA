@@ -1,9 +1,18 @@
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+
 public class ExplodingFragmentProjectile extends Projectile {
     int location;
     int speed;
     public ExplodingFragmentProjectile(double x, double y, int lifespan, int location) {
         super(x, y, lifespan);
         this.location = location;
+        try {
+            setSprite(ImageIO.read(new File("src\\exploding_fragment.png")));
+        }   catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

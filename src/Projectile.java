@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Projectile {
-    private static BufferedImage sprite;
+    private BufferedImage sprite;
     private double X;
     private double Y;
     protected boolean active;
@@ -51,8 +51,12 @@ public class Projectile {
         return new Rectangle((int) X, (int) Y, sprite.getWidth(), sprite.getHeight());
     }
 
-    public static BufferedImage getSprite() {
+    public BufferedImage getSprite() {
         return sprite;
+    }
+
+    public void setSprite(BufferedImage sprite) {
+        this.sprite = sprite;
     }
 
     public boolean isActive() {

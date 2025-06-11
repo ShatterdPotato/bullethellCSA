@@ -19,7 +19,7 @@ public class FilterAttack extends Attack {
     @Override
     public void update() {
         if (push) {
-            getPlayer().moveLeft(15);
+            getPlayer().moveLeft(25);
             if (getPlayer().getX() <= 50) {
                 push = false;
                 draw = true;

@@ -20,11 +20,6 @@ public class ExplodingAttack extends Attack {
                     projectiles.add(new ExplodingFragmentProjectile((temp.getX() +  (rad * Math.cos(i * Math.PI / 4))), temp.getY() +  (rad * Math.sin(i * Math.PI / 4)), 50, i));
                 }
             }
-        } else {
-            for (Projectile projectile : projectiles) {
-                projectile.update(getPlayer());
-            }
         }
-
     }
 }

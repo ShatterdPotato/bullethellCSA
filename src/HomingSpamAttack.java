@@ -5,7 +5,7 @@ public class HomingSpamAttack extends Attack{
 
     @Override
     public boolean isActive() {
-        return ticks < 200;
+        return ticks < 230;
     }
 
     @Override
